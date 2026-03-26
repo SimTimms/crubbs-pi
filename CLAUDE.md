@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-A 3D interactive visualization built with React Three Fiber. The app renders a 3D scene with GLB models, a dynamic 24-hour day/night cycle, and interactive binocular-style camera controls.
+A 3D space exploration game built with React Three Fiber. The player pilots a spaceship through a scaled solar system with orbital mechanics, NPC ships, docking, combat, scanning, and narrative systems.
 
 The application code lives in `my-r3f-app/`.
 
@@ -23,26 +23,67 @@ There are no tests configured.
 
 ## Architecture
 
-**Entry flow:** `main.tsx` → `App.tsx` (wraps with `TimeProvider`) → `Scene.tsx` (React Three Fiber `<Canvas>`)
+**Entry flow:** `main.tsx` → `App.tsx` → `AppShell.tsx` → `SceneLayer.tsx` → `Scene.tsx` (React Three Fiber `<Canvas>`)
 
-**Global time state** (`src/context/TimeProvider.tsx`):
-- Provides `time` (0–24h), `t` (0–1 normalized), and `speed` (cycle duration in seconds, default 10s)
-- All time-aware components consume this context via `useTime()`
-- One full day/night cycle completes in `speed` seconds of real time
+**App layers** (`src/components/App/`):
+- `SceneLayer` — R3F Canvas with all 3D objects
+- `HudLayer` — HUD overlays (nav, radio, inbox, scanning, power)
+- `DialogLayer` — Modal dialogs (docking, messages, selection, comms)
+- `ControlLayer` — Keyboard and mobile input capture
+- `AudioLayer` — Audio element setup
+
+**Global state pattern:**
+- Module-level refs in `src/context/*.ts` — high-frequency ship physics state (position, velocity, quaternion, fuel, O2, hull). These avoid React re-renders.
+- React context for save data (`SaveStore.ts`) and time-sensitive UI events (`MessageStore.ts`)
+- Config constants in `src/config/*.ts` — see Config section below
+
+**Ship physics** (`src/hooks/useShipPhysics.ts` + `src/hooks/shipPhysics/`):
+- `useFrame` loop runs physics step each frame
+- Submodules handle: inputs, gravity, collisions, docking, resource drain, engine audio, thruster light
+- Ship state (THRUST, fuel, O2, hull integrity, etc.) is in `src/context/ShipState.ts`
 
 **Scene composition** (`src/components/Scene.tsx`):
-- `BinocularCameraControls` — mouse drag (yaw/pitch via quaternions) + scroll (FOV 10–50°)
-- `SunCycle` — orbiting directional light + ambient light with color interpolation across 5 keyframes (sunrise, midday, sunset, night, loop)
-- `GLBModel` — loads static GLB files; traverses scene to find meshes named "Bedroom" and animates their emissive intensity based on time
-- `AnimatedModel` — loads GLB files with animation clips; plays a named clip at configurable speed
+- `OrbitCamera` (`Camera.tsx`) — mouse drag (quaternion yaw/pitch) + scroll (FOV zoom)
+- `SolarSystem` — orbital planets using scaled AU distances
+- `Sun`, `AsteroidBelt`, `SpaceParticles`, `NebulaClouds`, `SkySphere` — environment
+- `Spaceship` — player ship with GLB model + physics integration
+- `AIShip`, `GhostFleet` — NPC ships
+- `SpaceStation`, `FuelStation`, `RadioBeacon`, `LandingPad` — world objects
+- `RailgunWarning`, `LaserRay` — combat
+- `AutopilotController` — orbital autopilot maneuvers
 
-**3D models** are stored as `.glb` files in `my-r3f-app/public/` and loaded at runtime via `useGLTF`.
+**Autopilot** (`src/autopilot/`):
+- 14 files covering approach, circularization, orbit insertion, hyperbolic capture, SOI transitions
+- All maneuvers work via the `AutopilotCtx` interface in `types.ts`
 
-**Unused components:** `Camera.tsx`, `DeskMan.tsx`, `DragRotate.tsx` — these are superseded by `BinocularCamera.tsx` and `AnimatedModel.tsx`.
+**Config files** (`src/config/`):
+- `solarConfig.ts` — solar system scale, planet sizes
+- `worldConfig.ts` — planet/station/beacon definitions, audio paths
+- `scanRanges.ts` — HUD sensor ranges (proximity, magnetic, drive signature, radio)
+- `damageConfig.ts` — collision multipliers, railgun damage, O2/fuel drain/refill rates
+- `neptuneConfig.ts` — Neptune no-fly zone, railgun timing
+- `commsConfig.ts` — comms delay simulation (speed of light scaling)
+- `ghostFleetConfig.ts` — NPC ship/station names, fleet spawn radius
+
+**Narrative** (`src/narrative/`):
+- `inboxMessages.ts` — story messages with player choices
+- `npcDialogues.ts` — NPC conversation trees
+- `radioChatter.ts` — background radio lines
+- `shipRegistry.ts` — NPC ship names and factions
+- `contacts.ts` — contact list entries
+- `commsDelay.ts` — message delay calculator
+
+**3D models** are `.glb`/`.gltf` files in `my-r3f-app/public/`, loaded via `useGLTF`.
 
 ## Key Patterns
 
-- Use `useFrame` for per-frame updates (animation loop integration)
-- Use `useRef` for camera state and mesh references that should not trigger re-renders
-- Camera rotation is quaternion-based — avoid Euler angles to prevent gimbal lock
+- Use `useFrame` for per-frame updates; avoid state changes inside `useFrame`
+- Ship physics state lives in module-level refs (`src/context/ShipState.ts`, `ShipPos.ts`, etc.) — read directly, never set via React state
+- Camera rotation is quaternion-based in `Camera.tsx` — avoid Euler angles to prevent gimbal lock
 - `tsc` strict mode is on (`noUnusedLocals`, `noUnusedParameters`) — unused variables will fail the build
+- Config values should live in `src/config/` — never hardcode magic numbers in components
+- Debug flags are scattered; consolidate into `src/config/debugConfig.ts` when adding new ones
+
+## Known Issues / Refactoring Notes
+
+See `my-r3f-app/REFACTORING.md` for a full analysis of dead code, hardcoded values to move to config, and recommended folder reorganization.
