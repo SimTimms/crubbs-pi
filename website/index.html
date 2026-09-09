@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supervivencia Terca</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Nav ────────────────────────────────────────────────── -->
+<nav class="site-nav">
+  <a href="#about">About</a>
+  <a href="#features">Features</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#controls">Controls</a>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────────── -->
+<header class="hero" id="hero">
+  <div class="hero-stars">
+    <div class="layer layer-1"></div>
+    <div class="layer layer-2"></div>
+    <div class="layer layer-3"></div>
+  </div>
+  <div class="hero-content">
+    <img src="../my-r3f-app/public/supervivencia.png" alt="Supervivencia Terca" class="hero-logo" />
+    <h1>Supervivencia Terca</h1>
+    <p class="tagline">A 3D space exploration game with orbital mechanics, combat, and narrative</p>
+    <a href="#" class="cta-btn">Launch Game</a>
+  </div>
+  <span class="scroll-hint">Scroll to explore</span>
+</header>
+
+<!-- ── About ──────────────────────────────────────────────── -->
+<section class="about" id="about">
+  <h2 class="section-title">About</h2>
+  <p class="about-text">
+    Pilot a spaceship through a scaled solar system. Navigate orbital mechanics to
+    reach distant planets, dock at stations to trade and refuel, manage your fuel,
+    oxygen, and hull integrity, and complete missions that shape the narrative.
+    Every manoeuvre matters — momentum is real, gravity is unforgiving, and space
+    does not forgive carelessness.
+  </p>
+</section>
+
+<!-- ── Features ───────────────────────────────────────────── -->
+<section class="features" id="features">
+  <h2 class="section-title">Features</h2>
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <h3>Orbital Mechanics</h3>
+      <p>
+        Realistic gravity simulation with sphere-of-influence transitions,
+        circularisation burns, hyperbolic capture, and autopilot-assisted
+        orbit insertion. Plan your burns or let the flight computer handle it.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <h3>Docking &amp; Stations</h3>
+      <p>
+        Approach space stations and fuel depots, request docking clearance,
+        and dock to trade cargo, refuel, repair your hull, and pick up new
+        mission contracts.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <h3>Combat &amp; Scanning</h3>
+      <p>
+        Railguns and laser systems for ship-to-ship combat. Magnetic, drive
+        signature, and radio scanners to detect threats and identify targets
+        before they detect you.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <h3>Resource Management</h3>
+      <p>
+        Monitor fuel reserves, oxygen levels, hull integrity, and power
+        distribution. Every thruster burn costs fuel, every second drains O2,
+        and collisions compromise your hull.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <h3>NPC &amp; Narrative</h3>
+      <p>
+        Dialogue trees with NPC crews, branching story missions delivered
+        through an in-game inbox, radio chatter from passing ships, and
+        faction reputation that shapes your journey.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <h3>Solar System</h3>
+      <p>
+        A scaled solar system with orbiting planets, an asteroid belt,
+        nebula clouds, and a procedural star field. Each body exerts
+        gravitational influence on your trajectory.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Gallery ────────────────────────────────────────────── -->
+<section class="gallery" id="gallery">
+  <h2 class="section-title">Gallery</h2>
+  <div class="gallery-grid">
+
+    <div class="gallery-item">
+      <img src="../my-r3f-app/public/station.jpg" alt="Space Station" />
+      <span class="caption">Space Station</span>
+    </div>
+
+    <div class="gallery-item">
+      <img src="../my-r3f-app/public/station-2.jpg" alt="Station Interior" />
+      <span class="caption">Station Interior</span>
+    </div>
+
+    <div class="gallery-item">
+      <img src="../my-r3f-app/public/station-3.jpg" alt="Orbital Platform" />
+      <span class="caption">Orbital Platform</span>
+    </div>
+
+    <div class="gallery-item">
+      <img src="../my-r3f-app/public/Image_0.jpg" alt="Ship Schematic" />
+      <span class="caption">Ship Schematic</span>
+    </div>
+
+    <div class="gallery-item">
+      <img src="../my-r3f-app/public/Image_1.jpg" alt="Ship Blueprint" />
+      <span class="caption">Ship Blueprint</span>
+    </div>
+
+    <div class="gallery-item">
+      <img src="../my-r3f-app/public/profiles/bill-churchill.jpg" alt="Bill Churchill — NPC" />
+      <span class="caption">Bill Churchill</span>
+    </div>
+
+    <div class="gallery-item">
+      <img src="../my-r3f-app/public/profiles/elias-voss.jpg" alt="Elias Voss — NPC" />
+      <span class="caption">Elias Voss</span>
+    </div>
+
+    <div class="gallery-placeholder">Screenshot slot</div>
+
+  </div>
+</section>
+
+<!-- ── Controls ───────────────────────────────────────────── -->
+<section class="controls" id="controls">
+  <h2 class="section-title">Controls</h2>
+  <div class="controls-table-wrapper">
+    <table class="controls-table">
+      <thead>
+        <tr>
+          <th>Key</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="key">W</span> <span class="key">S</span></td>
+          <td>Thrust forward / backward</td>
+        </tr>
+        <tr>
+          <td><span class="key">A</span> <span class="key">D</span></td>
+          <td>Yaw left / right</td>
+        </tr>
+        <tr>
+          <td><span class="key">Q</span> <span class="key">E</span></td>
+          <td>Strafe left / right</td>
+        </tr>
+        <tr>
+          <td><span class="key">R</span> <span class="key">F</span></td>
+          <td>Radial thrust up / down</td>
+        </tr>
+        <tr>
+          <td><span class="key">Space</span></td>
+          <td>Undock / Stabiliser</td>
+        </tr>
+        <tr>
+          <td><span class="key">+</span> <span class="key">-</span></td>
+          <td>Thrust multiplier up / down</td>
+        </tr>
+        <tr>
+          <td><span class="key">&uarr;</span></td>
+          <td>Boost</td>
+        </tr>
+        <tr>
+          <td><span class="key">M</span></td>
+          <td>Toggle map</td>
+        </tr>
+        <tr>
+          <td><span class="key">N</span></td>
+          <td>Toggle nav HUD</td>
+        </tr>
+        <tr>
+          <td><span class="key">C</span></td>
+          <td>Decouple camera</td>
+        </tr>
+        <tr>
+          <td><span class="key">F5</span></td>
+          <td>Quick save</td>
+        </tr>
+        <tr>
+          <td><span class="key">F9</span></td>
+          <td>Quick load</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="site-footer">
+  Supervivencia Terca
+</footer>
+
+</body>
+</html>
